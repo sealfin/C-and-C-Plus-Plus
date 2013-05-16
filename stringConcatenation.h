@@ -49,7 +49,7 @@
     }                                                                                                                                 \
     while(( sParameter = va_arg( parameter, char* )) != NULL );                                                                       \
     va_end( parameter );                                                                                                              \
-  	p_error_none                                                                                                                      \
+    p_error_none                                                                                                                      \
     return s;                                                                                                                         \
   }
 
