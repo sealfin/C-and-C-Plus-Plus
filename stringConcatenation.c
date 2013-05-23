@@ -1,5 +1,5 @@
 #include "seal_stringConcatenation_C.h"
-#include "stringConcatenation.h"
+#include "seal_stringConcatenation_shared.h"
 
 static t_seal_STRING_CONCATENATION_ERROR_C g_error = k_seal_STRING_CONCATENATION_ERROR_C__NONE;
 
