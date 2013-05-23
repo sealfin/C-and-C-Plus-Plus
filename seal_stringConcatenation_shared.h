@@ -1,6 +1,6 @@
-#ifndef stringConcatenation_h
+#ifndef seal_stringConcatenation_shared_h
 
-#define stringConcatenation_h
+#define seal_stringConcatenation_shared_h
 
 #include <stdarg.h>
 #include <stdio.h>
