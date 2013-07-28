@@ -7,6 +7,8 @@ extern "C"
 {
 #endif
 
+#include <stdio.h>
+
 typedef enum
 {
   k_seal_STRING_CONCATENATION_ERROR_C__NONE = 0,
@@ -17,6 +19,9 @@ t_seal_STRING_CONCATENATION_ERROR_C;
 
 char *f_seal_ConcatenateStrings_C( char *p, ... );
 t_seal_STRING_CONCATENATION_ERROR_C f_seal_StringConcatenation_Error_C( void );
+void p_seal_StringConcatenation_PrintErrorsTo_C( FILE *p );
+/* Default is NULL. */
+FILE *f_seal_StringConcatenation_PrintErrorsTo_C( void );
 
 #ifdef __cplusplus
 }
