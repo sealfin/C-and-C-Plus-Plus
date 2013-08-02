@@ -7,6 +7,8 @@ extern "C"
 {
 #endif
 
+#include <stdio.h>
+
 typedef enum
 {
   k_seal_STRING_TO_INT_ERROR_C__NONE = 0,
@@ -20,6 +22,8 @@ t_seal_STRING_TO_INT_ERROR_C;
 
 int f_seal_StringToInt_C( const char * const p );
 t_seal_STRING_TO_INT_ERROR_C f_seal_StringToInt_Error_C( void );
+void p_seal_StringToInt_PrintErrorsTo_C( FILE *p );
+/* Default is NULL. */
 
 #ifdef __cplusplus
 }
