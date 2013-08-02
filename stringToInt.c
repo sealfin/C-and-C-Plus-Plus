@@ -1,8 +1,8 @@
 #include "seal_stringToInt_C.h"
-#include <stdio.h>
 #include <string.h>
 
 static t_seal_STRING_TO_INT_ERROR_C g_error = k_seal_STRING_TO_INT_ERROR_C__NONE;
+static FILE *g_printErrorsTo = NULL;
 
 int f_seal_StringToInt_C( const char * const p )
 {
@@ -11,19 +11,22 @@ int f_seal_StringToInt_C( const char * const p )
   g_error = k_seal_STRING_TO_INT_ERROR_C__NONE;
   if( p == NULL )
   {
-    fprintf( stderr, "f_seal_StringToInt_C - p == NULL.\n" );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_StringToInt_C - p == NULL.\n" );
     g_error = k_seal_STRING_TO_INT_ERROR_C__P_IS_NULL;
     return 0;
   }
   if( strlen( p ) == 0 )
   {
-    fprintf( stderr, "f_seal_StringToInt_C - strlen( p ) == 0.\n" );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_StringToInt_C - strlen( p ) == 0.\n" );
     g_error = k_seal_STRING_TO_INT_ERROR_C__P_IS_ZERO_CHARACTERS_LONG;
     return 0;
   }
   if(( strlen( p ) == 1 ) && (( p[ 0 ] == '+' ) || ( p[ 0 ] == '-' )))
   {
-    fprintf( stderr, "f_seal_StringToInt_C - p contains only a sign character ('%c').\n", p[ 0 ] );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_StringToInt_C - p contains only a sign character ('%c').\n", p[ 0 ] );
     g_error = k_seal_STRING_TO_INT_ERROR_C__P_CONTAINS_ONLY_A_SIGN_CHARACTER;
     return 0;
   }
@@ -37,7 +40,8 @@ int f_seal_StringToInt_C( const char * const p )
           ;
         else
         {
-          fprintf( stderr, "f_seal_StringToInt_C - the sign character ('+') is not the first character.\n" );
+          if( g_printErrorsTo != NULL )
+            fprintf( g_printErrorsTo, "f_seal_StringToInt_C - the sign character ('+') is not the first character.\n" );
           g_error = k_seal_STRING_TO_INT_ERROR_C__SIGN_CHARACTER_IS_NOT_FIRST_CHARACTER;
           return 0;
         }
@@ -49,14 +53,16 @@ int f_seal_StringToInt_C( const char * const p )
             result = -result;
           else
           {
-            fprintf( stderr, "f_seal_StringToInt_C - the sign character ('-') is not the first character.\n" );
+            if( g_printErrorsTo != NULL )
+              fprintf( g_printErrorsTo, "f_seal_StringToInt_C - the sign character ('-') is not the first character.\n" );
             g_error = k_seal_STRING_TO_INT_ERROR_C__SIGN_CHARACTER_IS_NOT_FIRST_CHARACTER;
             return 0;
           }
         }
         else
         {
-          fprintf( stderr, "f_seal_StringToInt_C - p contains a non-numerical character ('%c').\n", p[ i - 1 ] );
+          if( g_printErrorsTo != NULL )
+            fprintf( g_printErrorsTo, "f_seal_StringToInt_C - p contains a non-numerical character ('%c').\n", p[ i - 1 ] );
           g_error = k_seal_STRING_TO_INT_ERROR_C__P_CONTAINS_A_NON_NUMERICAL_CHARACTER;
           return 0;
         }
@@ -66,4 +72,9 @@ int f_seal_StringToInt_C( const char * const p )
 t_seal_STRING_TO_INT_ERROR_C f_seal_StringToInt_Error_C( void )
 {
   return g_error;
+}
+
+void p_seal_StringToInt_PrintErrorsTo_C( FILE *p )
+{
+  g_printErrorsTo = p;
 }
