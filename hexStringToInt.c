@@ -1,10 +1,10 @@
 #include "seal_hexStringToInt_C.h"
 #include "seal_bool.h"
-#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
 static t_seal_HEX_STRING_TO_INT_ERROR_C g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__NONE;
+static FILE *g_printErrorsTo = NULL;
 
 int f_seal_HexStringToInt_C( const char * const p )
 {
@@ -16,13 +16,15 @@ int f_seal_HexStringToInt_C( const char * const p )
   g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__NONE;
   if( p == NULL )
   {
-    fprintf( stderr, "f_seal_HexStringToInt_C - p == NULL.\n" );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - p == NULL.\n" );
     g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_IS_NULL;
     return 0;
   }
   if( strlen( p ) == 0 )
   {
-    fprintf( stderr, "f_seal_HexStringToInt_C - strlen( p ) == 0.\n" );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - strlen( p ) == 0.\n" );
     g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_IS_ZERO_CHARACTERS_LONG;
     return 0;
   }
@@ -30,7 +32,8 @@ int f_seal_HexStringToInt_C( const char * const p )
   negative = p[ 0 ] == '-';
   if( has_sign && ( strlen( p ) == 1 ))
   {
-    fprintf( stderr, "f_seal_HexStringToInt_C - p contains only a sign character ('%c').\n", p[ 0 ] );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - p contains only a sign character ('%c').\n", p[ 0 ] );
     g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_CONTAINS_ONLY_A_SIGN_CHARACTER;
     return 0;
   }
@@ -39,13 +42,15 @@ int f_seal_HexStringToInt_C( const char * const p )
   has_prefix = ( strlen( p ) >= ( 2 + end_i )) && (( p[ 1 + end_i ] == 'x' ) || ( p[ 1 + end_i ] == 'X' ));
   if(( !has_sign ) && has_prefix && ( strlen( p ) == 2 ))
   {
-    fprintf( stderr, "f_seal_HexStringToInt_C - p contains only a prefix (\"%s\").\n", p );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - p contains only a prefix (\"%s\").\n", p );
     g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_CONTAINS_ONLY_A_PREFIX;
     return 0;
   }
   if( has_prefix && ( p[ end_i ] != '0' ))
   {
-    fprintf( stderr, "f_seal_HexStringToInt_C - p contains a non-'0' character as the first character in the prefix ('%c').\n", p[ end_i ] );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - p contains a non-'0' character as the first character in the prefix ('%c').\n", p[ end_i ] );
     g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_CONTAINS_A_NON_ZERO_CHARACTER_AS_THE_FIRST_CHARACTER_IN_THE_PREFIX;
     return 0;
   }
@@ -53,7 +58,8 @@ int f_seal_HexStringToInt_C( const char * const p )
     end_i += 2;
   if( strlen( p ) == end_i )
   {
-    fprintf( stderr, "f_seal_HexStringToInt_C - p contains no non-sign, non-prefix characters.\n" );
+    if( g_printErrorsTo != NULL )
+      fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - p contains no non-sign, non-prefix characters.\n" );
     g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_CONTAINS_NO_NON_SIGN_NON_PREFIX_CHARACTERS;
     return 0;
   }
@@ -67,7 +73,8 @@ int f_seal_HexStringToInt_C( const char * const p )
         result += ((( c - 'a' ) + 10 ) * multiplier );
       else
       {
-        fprintf( stderr, "f_seal_HexStringToInt_C - p contains a non-hexadecimal character ('%c').\n", c );
+        if( g_printErrorsTo != NULL )
+          fprintf( g_printErrorsTo, "f_seal_HexStringToInt_C - p contains a non-hexadecimal character ('%c').\n", c );
         g_error = k_seal_HEX_STRING_TO_INT_ERROR_C__P_CONTAINS_A_NON_HEXADECIMAL_CHARACTER;
         return 0;
       }
@@ -80,4 +87,9 @@ int f_seal_HexStringToInt_C( const char * const p )
 t_seal_HEX_STRING_TO_INT_ERROR_C f_seal_HexStringToInt_Error_C( void )
 {
   return g_error;
+}
+
+void p_seal_HexStringToInt_PrintErrorsTo_C( FILE *p )
+{
+  g_printErrorsTo = p;
 }
