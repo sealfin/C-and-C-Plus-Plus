@@ -14,8 +14,11 @@ struct seal_QueueNode
 template <class T>
 class seal_Queue
 {
+  protected:
+    struct seal_QueueNode<T> *m_first;
+
   private:
-    struct seal_QueueNode<T> *m_first, *m_last, *m_current;
+    struct seal_QueueNode<T> *m_last, *m_current;
 
   public:
     seal_Queue( void )
@@ -93,6 +96,7 @@ class seal_Queue
       return content;
     }
 
+  protected:
     virtual T f_Assign( T p )
     {
       return p;
