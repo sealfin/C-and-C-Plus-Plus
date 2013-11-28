@@ -14,7 +14,7 @@ struct seal_StackNode
 template <class T>
 class seal_Stack
 {
-  private:
+  protected:
     struct seal_StackNode<T> *m_top;
 
   public:
@@ -70,6 +70,7 @@ class seal_Stack
       return content;
     }
 
+  protected:
     virtual T f_Assign( T p )
     {
       return p;
