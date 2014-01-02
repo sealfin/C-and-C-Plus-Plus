@@ -94,6 +94,34 @@ class seal_Quad_Triangles
       *x = m_coordinates[ 0 ];
       *y = m_coordinates[ 1 ];
     }
+
+    void p_HFlip( void )
+    {
+      GLfloat left[ 2 ], right[ 2 ];
+      p_GetTopLeftCorner( &left[ 0 ], &left[ 1 ] );
+      p_GetTopRightCorner( &right[ 0 ], &right[ 1 ] );
+      p_SetTopLeftCorner( right[ 0 ], right[ 1 ] );
+      p_SetTopRightCorner( left[ 0 ], left[ 1 ] );
+
+      p_GetBottomLeftCorner( &left[ 0 ], &left[ 1 ] );
+      p_GetBottomRightCorner( &right[ 0 ], &right[ 1 ] );
+      p_SetBottomLeftCorner( right[ 0 ], right[ 1 ] );
+      p_SetBottomRightCorner( left[ 0 ], left[ 1 ] );
+    }
+
+    void p_VFlip( void )
+    {
+      GLfloat bottom[ 2 ], top[ 2 ];
+      p_GetTopLeftCorner( &top[ 0 ], &top[ 1 ] );
+      p_GetBottomLeftCorner( &bottom[ 0 ], &bottom[ 1 ] );
+      p_SetTopLeftCorner( bottom[ 0 ], bottom[ 1 ] );
+      p_SetBottomLeftCorner( top[ 0 ], top[ 1 ] );
+
+      p_GetTopRightCorner( &top[ 0 ], &top[ 1 ] );
+      p_GetBottomRightCorner( &bottom[ 0 ], &bottom[ 1 ] );
+      p_SetTopRightCorner( bottom[ 0 ], bottom[ 1 ] );
+      p_SetBottomRightCorner( top[ 0 ], top[ 1 ] );
+    }
 };
 
 #endif
