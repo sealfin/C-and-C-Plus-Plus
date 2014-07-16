@@ -5,9 +5,9 @@
 #include <stdlib.h>
 
 template <class T>
-struct seal_StackNode
+struct t_seal_StackNode
 {
-  struct seal_StackNode<T> *m_d;
+  struct t_seal_StackNode<T> *m_d;
   T m_content;
 };
 
@@ -15,7 +15,7 @@ template <class T>
 class seal_Stack
 {
   protected:
-    struct seal_StackNode<T> *m_top;
+    struct t_seal_StackNode<T> *m_top;
 
   public:
     seal_Stack( void )
@@ -29,7 +29,7 @@ class seal_Stack
     }
 
   private:
-    void p_Delete( struct seal_StackNode<T> *p )
+    void p_Delete( struct t_seal_StackNode<T> *p )
     {
       if( p != NULL )
       {
@@ -48,7 +48,7 @@ class seal_Stack
 
     void p_Push( T p )
     {
-      struct seal_StackNode<T> *n = ( struct seal_StackNode<T>* )malloc( sizeof( struct seal_StackNode<T> ));
+      struct t_seal_StackNode<T> *n = ( struct t_seal_StackNode<T>* )malloc( sizeof( struct t_seal_StackNode<T> ));
       n->m_d = m_top;
       n->m_content = f_Assign( p );
       m_top = n;
@@ -64,7 +64,7 @@ class seal_Stack
       if( f_IsEmpty())
         throw "seal_Stack::f_Pop - f_IsEmpty() == true.";
       T content = m_top->m_content;
-      struct seal_StackNode<T> *n = m_top;
+      struct t_seal_StackNode<T> *n = m_top;
       m_top = m_top->m_d;
       free( n );
       return content;
