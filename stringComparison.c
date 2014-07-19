@@ -35,7 +35,7 @@ int f_seal_CompareStringsLexicographically_IgnoreCase( const char * const a, con
     {
       const char a_lowercase = tolower( a[ i ] ), b_lowercase = tolower( b[ i ] );
       if( a_lowercase != b_lowercase )
-        return ( int )a_lowercase - ( int )b_lowercase;
+        return a_lowercase - b_lowercase;
     }
     if( a_length > b_length )
       return 1;
