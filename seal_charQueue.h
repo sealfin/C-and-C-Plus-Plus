@@ -40,7 +40,7 @@ class seal_CharQueue : public seal_Queue<char>
     }
 
   public:
-    void p_Read( FILE *p_file, const char * const p_startCharacters, const char * const p_stopCharacters, char *p_stopCharacter, const bool p_throwExceptionIfFileEndsBeforeStartCharacterRead )
+    void p_Read( FILE *p_file, const char * const p_startCharacters, const char * const p_stopCharacters, char *p_stopCharacter, const bool p_throwExceptionIfFileEndsBeforeStartCharacterRead, const bool p_throwExceptionIfFileEndsBeforeStopCharacterRead, bool *p_endOfFile )
     /*
     If p_startCharacters is NULL, characters will begin to be read/added to the queue from the current position in the file.
     If p_stopCharacters is NULL, characters will be read/added to the queue 'til the end of the file.
@@ -48,6 +48,8 @@ class seal_CharQueue : public seal_Queue<char>
     {
       if( p_file == NULL )
         throw "seal_CharQueue::p_Read - p_file == NULL.";
+      if( p_endOfFile != NULL )
+        *p_endOfFile = false;
       char c;
       bool startCharacterRead = p_startCharacters == NULL;
       while( fscanf( p_file, "%c", &c ) != EOF )
@@ -62,13 +64,15 @@ class seal_CharQueue : public seal_Queue<char>
               *p_stopCharacter = c;
             return;
           }
+      if( p_endOfFile != NULL )
+        *p_endOfFile = true;
       if( !startCharacterRead )
       {
         if( p_throwExceptionIfFileEndsBeforeStartCharacterRead )
           throw "seal_CharQueue::p_Read - unexpected end of file before start character read.";
       }
       else
-        if( p_stopCharacters != NULL )
+        if(( p_stopCharacters != NULL ) && ( p_throwExceptionIfFileEndsBeforeStopCharacterRead ))
           throw "seal_CharQueue::p_Read - unexpected end of file before stop character read.";
     }
 
