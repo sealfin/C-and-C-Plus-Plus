@@ -15,10 +15,10 @@ template <class T>
 class seal_Queue
 {
   protected:
-    struct seal_QueueNode<T> *m_first;
+    struct seal_QueueNode<T> *m_first, *m_last;
 
   private:
-    struct seal_QueueNode<T> *m_last, *m_current;
+    struct seal_QueueNode<T> *m_current;
 
   public:
     seal_Queue( void )
