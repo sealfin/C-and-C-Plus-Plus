@@ -4,6 +4,30 @@
 static t_seal_STRING_TO_INT_ERROR_C g_error = k_seal_STRING_TO_INT_ERROR_C__NONE;
 static FILE *g_printErrorsTo = NULL;
 
+bool f_seal_IsInt( const char * const p )
+{
+  if( p == NULL )
+    return false;
+  {
+    const size_t K = strlen( p );
+    size_t i = 0;
+    if( K < 1 )
+      return false;
+      /* Insufficient characters to be in the format N. */
+    if(( p[ 0 ] == '+' ) || ( p[ 0 ] == '-' ))
+    {
+      if( K < 2 )
+        return false;
+        /* Insufficient characters to be in the format ±N. */
+      i ++;
+    }
+    for( ; i < K; i ++ )
+      if(( p[ i ] < '0' ) || ( p[ i ] > '9' ))
+        return false;
+  }
+  return true;
+}
+
 int f_seal_StringToInt_C( const char * const p )
 {
   size_t i;
