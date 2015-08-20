@@ -7,6 +7,7 @@ extern "C"
 {
 #endif
 
+#include "seal_bool.h"
 #include <stdio.h>
 
 typedef enum
@@ -20,6 +21,14 @@ typedef enum
 }
 t_seal_STRING_TO_INT_ERROR_C;
 
+bool f_seal_IsInt( const char * const p );
+/*
+Returns true if:
+* p != NULL
+* and p points to a string in the format ±N, where:
+  ** ± is a sign character (+ or -) {_optional_}
+  ** N is one or more digits in the range [0..9]
+*/
 int f_seal_StringToInt_C( const char * const p );
 t_seal_STRING_TO_INT_ERROR_C f_seal_StringToInt_Error_C( void );
 void p_seal_StringToInt_PrintErrorsTo_C( FILE *p );
