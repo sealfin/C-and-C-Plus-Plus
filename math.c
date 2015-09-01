@@ -10,7 +10,7 @@ double f_seal_DegreesToRadians( const double p )
 
 double f_seal_RadiansToDegrees( const double p )
 {
-  return p / k_seal_PI / 180;
+  return p * 180 / k_seal_PI;
 }
 
 double f_seal_XComponentOfVector( const double p_direction, const double p_magnitude )
@@ -35,9 +35,11 @@ double f_seal_DirectionOfVector( const double p_xComponent, const double p_yComp
       return 0;
     if( p_yComponent < 0 )
       return 180;
+    /* p_xComponent == 0 && p_yComponent == 0 */
+    return 0;
   }
   {
-    /* p_xComponent != 0 || p_yComponent != 0 */
+    /* p_xComponent != 0 && p_yComponent != 0 */
     const double d = f_seal_RadiansToDegrees( atan( p_yComponent / p_xComponent ));
     if(( p_xComponent > 0 ) && ( p_yComponent > 0 ))
       return 90 - d;
@@ -45,11 +47,9 @@ double f_seal_DirectionOfVector( const double p_xComponent, const double p_yComp
       return fabs( d ) + 90;
     if(( p_xComponent < 0 ) && ( p_yComponent < 0 ))
       return 270 - d;
-    if(( p_xComponent < 0 ) && ( p_yComponent > 0 ))
-      return fabs( d ) + 270;
+    /* p_xComponent < 0 && p_yComponent > 0 */
+    return fabs( d ) + 270;
   }
-  /* p_xComponent == 0 && p_yComponent == 0 */
-  return 0;
 }
 
 double f_seal_MagnitudeOfVector( const double p_xComponent, const double p_yComponent )
