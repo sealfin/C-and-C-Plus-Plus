@@ -37,6 +37,22 @@ class seal_TileBackground
     {
       return m_height;
     }
+    double f_Bottom( void )
+    {
+      return m_bottomLeftY;
+    }
+    double f_Top( void )
+    {
+      return m_bottomLeftY + m_height * m_texture->f_SubTextureHeight();
+    }
+    double f_Left( void )
+    {
+      return m_bottomLeftX;
+    }
+    double f_Right( void )
+    {
+      return m_bottomLeftX + m_width * m_texture->f_SubTextureWidth();
+    }
     size_t f_GetSubTexture( const size_t p_x, const size_t p_y );
     void p_SetSubTexture( const size_t p_x, const size_t p_y, const size_t p_subTexture );
     void p_SetAllSubTextures( const size_t p );
