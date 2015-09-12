@@ -76,7 +76,7 @@ class seal_CharQueue : public seal_Queue<char>
           throw "seal_CharQueue::p_Read - unexpected end of file before stop character read.";
     }
 
-    void p_Read( FILE *p_file, const char * const p_stopString )
+    void p_Read( FILE *p_file, const char * const p_stopString, const bool p_throwExceptionIfFileEndsBeforeStopStringRead, bool *p_endOfFile )
     {
       if( p_file == NULL )
         throw "seal_CharQueue::p_Read - p_file == NULL.";
@@ -93,12 +93,19 @@ class seal_CharQueue : public seal_Queue<char>
         {
           i ++;
           if( i == strlen( p_stopString ))
+          {
+            if( p_endOfFile != NULL )
+              *p_endOfFile = false;
             return;
+          }
         }
         else
           i = 0;
       }
-      throw "seal_CharQueue::p_Read - unexpected end of file before stop string read.";
+      if( p_endOfFile != NULL )
+        *p_endOfFile = true;
+      if( p_throwExceptionIfFileEndsBeforeStopStringRead )
+        throw "seal_CharQueue::p_Read - unexpected end of file before stop string read.";
     }
 
     char *f_String( void )
