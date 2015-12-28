@@ -153,6 +153,83 @@ class seal_Tree
     virtual void p_Delete( T p )
     {
     }
+
+  public:
+    void p_Remove( U p )
+    {
+      struct t_seal_TreeNode<T> *n = f_RemoveAndReturnSubtree( p );
+      p_AddSubtreeContent( n );
+      p_Delete( n->m_content );
+      free( n );
+    }
+
+  private:
+    struct t_seal_TreeNode<T> *f_RemoveAndReturnSubtree( U p )
+    {
+      const t_seal_TREE_BRANCH_DIRECTION bD = f_Compare_TU( m_root->m_content, p );
+      struct t_seal_TreeNode<T> *n;
+      if( bD == k_seal_TREE_BRANCH_DIRECTION__LEFT )
+        if( f_Compare_TU( m_root->m_l->m_content, p ) == k_seal_TREE_BRANCH_DIRECTION__STRAIGHT )
+        {
+          n = m_root->m_l;
+          m_root->m_l = NULL;
+          return n;
+        }
+        else
+          return f_RemoveAndReturnSubtree( m_root->m_l, p );
+      else
+        if( bD == k_seal_TREE_BRANCH_DIRECTION__STRAIGHT )
+        {
+          n = m_root;
+          m_root = NULL;
+          return n;
+        }
+        else
+          if( f_Compare_TU( m_root->m_r->m_content, p ) == k_seal_TREE_BRANCH_DIRECTION__STRAIGHT )
+          {
+            n = m_root->m_r;
+            m_root->m_r = NULL;
+            return n;
+          }
+          else
+            return f_RemoveAndReturnSubtree( m_root->m_r, p );
+    }
+
+    struct t_seal_TreeNode<T> *f_RemoveAndReturnSubtree( struct t_seal_TreeNode<T> *p_n, U p_identifier )
+    {
+      const t_seal_TREE_BRANCH_DIRECTION bD = f_Compare_TU( p_n->m_content, p_identifier );
+      struct t_seal_TreeNode<T> *n;
+      if( bD == k_seal_TREE_BRANCH_DIRECTION__LEFT )
+        if( f_Compare_TU( p_n->m_l->m_content, p_identifier ) == k_seal_TREE_BRANCH_DIRECTION__STRAIGHT )
+        {
+          n = p_n->m_l;
+          p_n->m_l = NULL;
+          return n;
+        }
+        else
+          return f_RemoveAndReturnSubtree( p_n->m_l, p_identifier );
+      else
+        if( f_Compare_TU( p_n->m_r->m_content, p_identifier ) == k_seal_TREE_BRANCH_DIRECTION__STRAIGHT )
+        {
+          n = p_n->m_r;
+          p_n->m_r = NULL;
+          return n;
+        }
+        else
+          return f_RemoveAndReturnSubtree( p_n->m_r, p_identifier );
+    }
+
+    void p_AddSubtreeContent( struct t_seal_TreeNode<T> *p_n, const bool p_addContent = false )
+    {
+      if( p_n->m_l != NULL )
+        p_AddSubtreeContent( p_n->m_l, true );
+      if( p_addContent )
+        p_Set( p_n->m_content );
+      if( p_n->m_r != NULL )
+        p_AddSubtreeContent( p_n->m_r, true );
+      if( p_addContent )
+        free( p_n );
+    }
 };
 
 #endif
