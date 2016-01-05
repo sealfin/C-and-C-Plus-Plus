@@ -1,4 +1,4 @@
-Copyright © 1997-2015, Mark Bishop
+Copyright © 1997-2016, Mark Bishop
 
 All rights reserved.
 
