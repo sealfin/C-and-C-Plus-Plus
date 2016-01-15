@@ -93,6 +93,14 @@ class seal_Sprite
     }
     void p_Update( const size_t p );
     void p_Render( void );
+    size_t f_WidthInPixels( void )
+    {
+      return m_archetype->m_texture->f_SubTextureWidth();
+    }
+    size_t f_HeightInPixels( void )
+    {
+      return m_archetype->m_texture->f_SubTextureHeight();
+    }
     double f_GetBottomLeftX( void )
     {
       return m_bottomLeftX;
