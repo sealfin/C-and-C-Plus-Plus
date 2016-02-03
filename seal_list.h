@@ -5,7 +5,7 @@
 template <class T>
 struct t_seal_ListNode
 {
-  struct t_seal_ListNode *m_p, *m_n;
+  struct t_seal_ListNode<T> *m_p, *m_n;
   size_t m_index;
   T m_content;
 };
@@ -132,6 +132,7 @@ class seal_List
       else
         n->m_n->m_p = n->m_p;
       p_RenumberIndices( n->m_n );
+      free( n );
       m_number --;
     }
 
