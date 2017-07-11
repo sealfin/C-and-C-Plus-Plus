@@ -1,7 +1,7 @@
 #include "seal_math.h"
 #include <math.h>
 
-static const double k_seal_PI = 3.141592654;
+const double k_seal_PI = 3.141592654;
 
 double f_seal_DegreesToRadians( const double p )
 {
