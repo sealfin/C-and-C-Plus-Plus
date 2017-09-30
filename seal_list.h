@@ -2,6 +2,8 @@
 
 #define seal_list_h
 
+#include <stdlib.h>
+
 template <class T>
 struct t_seal_ListNode
 {
@@ -42,6 +44,7 @@ class seal_List
     }
 
   protected:
+    /* If your class overrides the following method, your class must have a destructor, and that destructor must invoke the `p_Empty()` method of this class. */
     virtual void p_Delete( T p )
     {
     }
