@@ -102,6 +102,7 @@ class seal_Queue
       return p;
     }
 
+    /* If your class overrides the following method, your class must have a destructor, and that destructor must invoke the `p_Empty()` method of this class. */
     virtual void p_Delete( T p )
     {
     }
