@@ -49,6 +49,12 @@ class seal_Tree
     }
 
   public:
+    void p_Empty( void )
+    {
+      p_Delete( m_root );
+      m_root = NULL;
+    }
+
     void p_Set( T p )
     {
       if( m_root == NULL )
@@ -150,6 +156,7 @@ class seal_Tree
 
     virtual T f_IsNotInTree( U p ) = 0;
 
+    /* If your class overrides the following method, your class must have a destructor, and that destructor must invoke the `p_Empty()` method of this class. */
     virtual void p_Delete( T p )
     {
     }
