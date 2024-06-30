@@ -2,16 +2,21 @@
 
 #define seal_bool_h
 
-#ifndef false
+#ifndef __cplusplus
 #define false 0
-#endif
-
-#ifndef true
 #define true 1
 #endif
 
-#ifndef __cplusplus
-typedef short bool;
+#ifdef LEONARDO
+typedef unsigned short bool;
+#endif
+
+#if !defined( __cplusplus ) && defined( __MWERKS__ )
+typedef unsigned char bool;
+#endif
+
+#if !defined( __cplusplus ) && !( defined( LEONARDO ) || defined( __MWERKS__ ))
+typedef unsigned int bool;
 #endif
 
 #endif
